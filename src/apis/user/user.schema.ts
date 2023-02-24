@@ -5,11 +5,38 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true, versionKey: false })
 export class User {
-  @Prop()
-  example1: string;
+  @Prop({ type: String })
+  fisrtName: string;
 
-  @Prop()
-  example2: number;
+  @Prop({ type: String })
+  lastName: string;
+
+  @Prop({ type: String, required: true })
+  email: string;
+
+  @Prop({ type: String, required: true })
+  password: string;
+
+  @Prop({ type: Date })
+  birthDay: Date;
+
+  @Prop({ type: Boolean })
+  gender: boolean;
+
+  @Prop({ type: Number })
+  age: Number;
+
+  @Prop({ type: String })
+  workPlace: String;
+
+  @Prop({ type: String })
+  location: String;
+
+  @Prop({ type: String })
+  city: String;
+
+  @Prop({ type: String })
+  street: String;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

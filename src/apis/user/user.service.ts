@@ -6,12 +6,15 @@ import { User, UserDocument } from 'src/apis/user/user.schema';
 import { UserDto } from 'src/apis/user/dtos/user.dto';
 import { UserFilterDto } from 'src/apis/user/dtos/user-filter.dto';
 import { removeKeyUndefined } from '../../core/utils/utils';
+import { sha512 } from 'src/core/utils/hash-password';
+import { HttpException } from '@nestjs/common/exceptions';
+import { HttpStatus } from '@nestjs/common/enums';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>,
+    private readonly userModel: Model<UserDocument>, // private userService: UserService ;
   ) {}
 
   async getAll(filter: UserFilterDto) {}
@@ -20,12 +23,6 @@ export class UserService {
     const user = await this.userModel.findById(id).lean();
     if (!user) throw new Error(`User with id is ${id} does not exist`);
     return user;
-  }
-
-  async create(data: UserDto) {
-    const userInstance = plainToInstance(User, data);
-    const newUser = new this.userModel(userInstance);
-    return newUser.save();
   }
 
   async updateById(id: string, data: UserDto) {

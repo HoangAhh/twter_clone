@@ -1,14 +1,65 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UserDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  example1: string;
+  fisrtName: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  example2: string;
+  lastName: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsDate()
+  birthDay: Date;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  gender: boolean;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  age: number;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  workPlace: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  location: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  city: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  street: string;
 }

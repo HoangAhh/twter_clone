@@ -51,19 +51,6 @@ export class UserController {
     }
   }
 
-  @ApiOperation({ summary: 'Create a user' })
-  @Post()
-  async create(@Body() data: UserDto) {
-    try {
-      const result = await this.userService.create(data);
-      return responseSuccess(result);
-    } catch (error) {
-      console.log(error.message);
-      this.logger.error(error.stack);
-      return responseError(error.message || error);
-    }
-  }
-
   @ApiOperation({ summary: 'Update a user' })
   @Put(':id')
   async updateById(@Param('id') id: string, @Body() data: UserDto) {
