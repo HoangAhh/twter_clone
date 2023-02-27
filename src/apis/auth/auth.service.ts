@@ -28,7 +28,6 @@ export class AuthService {
       throw new Error('mat khau khong dung ');
     } else {
       const payload = { uid: isExistsEmail._id };
-
       delete isExistsEmail.password;
       return {
         access_token: this.jwtService.sign(payload, {

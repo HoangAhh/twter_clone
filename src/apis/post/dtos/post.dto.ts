@@ -22,9 +22,4 @@ export class postDto {
   @IsOptional()
   @IsNumber()
   quantityLikes: number;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsDate()
-  postTime: Date;
 }

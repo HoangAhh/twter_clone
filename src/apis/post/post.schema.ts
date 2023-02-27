@@ -6,17 +6,14 @@ import { Document } from 'mongoose';
 export type PostDocument = Post & Document;
 @Schema({ timestamps: true, versionKey: false })
 export class Post {
-  @Prop({ type: String })
-  status: string;
+  @Prop({ type: String, required: true })
+  contents: string;
 
-  @Prop({ type: String })
-  content: string;
-
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   comment: string;
 
-  @Prop({ type: String })
-  description: string;
+  @Prop({ type: Number })
+  quantityLikes: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

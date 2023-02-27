@@ -20,11 +20,24 @@ import {
 import { postDto } from './dtos/post.dto';
 import { PostService } from './post.service';
 
-@ApiTags('post ')
-@Controller('create post')
+@ApiTags('post')
+@Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
   private readonly logger = new Logger(PostController.name);
+
+  @Post('Create')
+  async create(@Body() data: postDto) {
+    try {
+      const result = await this.postService.createPost(data);
+      return responseSuccess(result);
+      //
+    } catch (error) {
+      console.log(error.message);
+      this.logger.error(error.stack);
+      return responseError(error.message || error);
+    }
+  }
 
   @ApiOperation({ summary: 'Get a post by id' })
   @Get(':id')
