@@ -1,17 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsDate,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  contents: string;
+  topic: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  userName: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  status: string;
 
   @ApiProperty()
   @IsOptional()
@@ -20,6 +24,21 @@ export class postDto {
 
   @ApiProperty()
   @IsOptional()
+  @IsString()
+  tweet: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  describe: string;
+
+  @ApiProperty()
+  @IsOptional()
   @IsNumber()
-  quantityLikes: number;
+  like: number;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  view: number;
 }

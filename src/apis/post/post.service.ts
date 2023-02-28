@@ -5,7 +5,7 @@ import { plainToInstance } from 'class-transformer';
 import { removeKeyUndefined } from '../../core/utils/utils';
 import { PostDocument, Post } from './post.schema';
 import { postDto } from './dtos/post.dto';
-import { PostController } from './post.controller';
+// import { PostController } from './post.controller';
 
 @Injectable()
 export class PostService {
@@ -15,17 +15,17 @@ export class PostService {
   ) {}
 
   async getById(id: string) {
-    const post = await this.postModel.findById(id).lean();
-    if (!post) throw new Error(`Post with id is ${id} does not exist`);
-    return post;
+    const posts = await this.postModel.findById(id).lean();
+    if (!posts) throw new Error(`Post with id is ${id} does not exist`);
+    return posts;
   }
 
   async createPost(data: postDto) {
     const newPost = new this.postModel(data);
 
-    const post = newPost.save();
+    const posts = newPost.save();
 
-    return post;
+    return posts;
   }
 
   async updateById(id: string, data: postDto) {

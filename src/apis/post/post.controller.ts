@@ -20,8 +20,8 @@ import {
 import { postDto } from './dtos/post.dto';
 import { PostService } from './post.service';
 
-@ApiTags('post')
-@Controller('post')
+@ApiTags('posts')
+@Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
   private readonly logger = new Logger(PostController.name);
@@ -39,7 +39,7 @@ export class PostController {
     }
   }
 
-  @ApiOperation({ summary: 'Get a post by id' })
+  @ApiOperation({ summary: 'Get a posts by id' })
   @Get(':id')
   async getById(@Param('id') id: string) {
     try {
@@ -52,7 +52,7 @@ export class PostController {
     }
   }
 
-  @ApiOperation({ summary: 'Update a post' })
+  @ApiOperation({ summary: 'Update a posts' })
   @Put(':id')
   async updateById(@Param('id') id: string, @Body() data: postDto) {
     try {
@@ -65,7 +65,7 @@ export class PostController {
     }
   }
 
-  @ApiOperation({ summary: 'Delete a post' })
+  @ApiOperation({ summary: 'Delete a posts' })
   @Delete(':id')
   async deleteById(@Param('id') id: string) {
     try {
