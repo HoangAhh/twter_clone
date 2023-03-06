@@ -8,11 +8,7 @@ import {
   Body,
   Query,
   Logger,
-  UseInterceptors,
 } from '@nestjs/common';
-import { UploadedFile } from '@nestjs/common/decorators';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { get } from 'lodash';
 // import { async } from 'rxjs';
@@ -21,19 +17,20 @@ import {
   responseError,
   responseSuccess,
 } from '../../core/base/base.controller';
-import { postDto } from './dtos/post.dto';
-import { PostService } from './post.service';
+import { commentDto } from './dto/comment.dto';
+import { CommentService } from './comment.service';
 
-@ApiTags('posts')
-@Controller('posts')
-export class PostController {
-  constructor(private readonly postService: PostService) {}
-  private readonly logger = new Logger(PostController.name);
+@ApiTags('comment')
+@Controller('comment')
+export class CommentController {
+  constructor(private readonly commentService: CommentService) {}
+
+  private readonly logger = new Logger(CommentController.name);
 
   @Post('Create')
-  async create(@Body() data: postDto) {
+  async create(@Body() data: commentDto) {
     try {
-      const result = await this.postService.createPost(data);
+      const result = await this.commentService.createComment(data);
       return responseSuccess(result);
       //
     } catch (error) {
@@ -43,11 +40,11 @@ export class PostController {
     }
   }
 
-  @ApiOperation({ summary: 'Get a posts by id' })
+  @ApiOperation({ summary: 'Get a comment by id' })
   @Get(':id')
   async getById(@Param('id') id: string) {
     try {
-      const result = await this.postService.getById(id);
+      const result = await this.commentService.getById(id);
       return responseSuccess(result);
     } catch (error) {
       console.log(error.message);
@@ -56,11 +53,11 @@ export class PostController {
     }
   }
 
-  @ApiOperation({ summary: 'Update a posts' })
+  @ApiOperation({ summary: 'Update a comment' })
   @Put(':id')
-  async updateById(@Param('id') id: string, @Body() data: postDto) {
+  async updateById(@Param('id') id: string, @Body() data: commentDto) {
     try {
-      const result = await this.postService.updateById(id, data);
+      const result = await this.commentService.updateById(id, data);
       return responseSuccess(result);
     } catch (error) {
       console.log(error.message);
@@ -68,11 +65,12 @@ export class PostController {
       return responseError(error.message || error);
     }
   }
-  @ApiOperation({ summary: 'Delete a posts' })
+
+  @ApiOperation({ summary: 'Delete a comment' })
   @Delete(':id')
   async deleteById(@Param('id') id: string) {
     try {
-      const result = await this.postService.deleteById(id);
+      const result = await this.commentService.deleteById(id);
       return responseSuccess(result);
     } catch (error) {
       console.log(error.message);
