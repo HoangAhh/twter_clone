@@ -13,8 +13,8 @@ export class PostService {
   constructor(
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
-    private readonly hashtagService: HashTagService, // private readonly postController : Model<PostController>
-  ) {}
+  ) // private readonly hashtagService: HashTagService, // private readonly postController : Model<PostController>
+  {}
 
   async getById(id: string) {
     const posts = await this.postModel.findById(id).lean();
@@ -24,7 +24,7 @@ export class PostService {
 
   async createPost(data: postDto) {
     const newPost = new this.postModel(data);
-    const hashTags = await this.hashtagService.createHastag(data.hashtag);
+    // const hashTags = await this.hashtagService.createHastag(data.hashtag);
 
     const posts = newPost.save();
 
