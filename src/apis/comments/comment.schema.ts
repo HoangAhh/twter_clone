@@ -3,23 +3,17 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 // import { type } from 'os';
 
-export type PostDocument = Post & Document;
+export type CommentDocument = Comment & Document;
 @Schema({ timestamps: true, versionKey: false })
-export class Post {
+export class Comment {
   @Prop({ type: String, required: true })
   topic: string;
 
   @Prop({ type: String, required: true })
   userName: string;
 
-  @Prop({ type: Number, required: true })
-  userID: Number;
-
   @Prop({ type: String })
   status: string;
-
-  @Prop({ type: String, required: true })
-  hashtag: string;
 
   @Prop({ type: String })
   comment: string;
@@ -37,4 +31,4 @@ export class Post {
   view: number;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const CommentSchema = SchemaFactory.createForClass(Comment);

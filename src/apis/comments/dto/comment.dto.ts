@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class postDto {
+export class commentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -20,22 +20,12 @@ export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  hashtag: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
   comment: string;
 
   @ApiProperty()
   @IsOptional()
   @IsNumber()
   tweet: number;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsNumber()
-  UserID: number;
 
   @ApiProperty()
   @IsOptional()
