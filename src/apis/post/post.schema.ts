@@ -13,9 +13,9 @@ export class Post {
   userName: string;
 
   @Prop({ type: Number, required: true })
-  userID: Number;
+  userId: Number;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   status: string;
 
   @Prop({ type: String, required: true })

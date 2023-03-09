@@ -35,7 +35,7 @@ export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsNumber()
-  UserID: number;
+  userId: number;
 
   @ApiProperty()
   @IsOptional()

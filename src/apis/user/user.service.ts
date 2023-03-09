@@ -20,13 +20,13 @@ export class UserService {
   async getAll(filter: UserFilterDto) {}
 
   async getById(id: string) {
-    const user = await this.userModel.findById(id).lean();
+    const user = await this.userModel.findOne({ _id: id }).lean();
     if (!user) throw new Error(`User with id is ${id} does not exist`);
     return user;
   }
 
   async updateById(id: string, data: UserDto) {
-    const user = await this.userModel.findById(id).lean();
+    const user = await this.userModel.findOne({ _id: id }).lean();
     if (!user) throw new Error(`User with id is ${id} does not exist`);
 
     const userInstance = plainToInstance(User, data);
@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async deleteById(id: string) {
-    const user = await this.userModel.findById(id).lean();
+    const user = await this.userModel.findOne({ _id: id }).lean();
     if (!user) throw new Error(`User with id is ${id} does not exist`);
     return this.userModel.findByIdAndDelete(id);
   }

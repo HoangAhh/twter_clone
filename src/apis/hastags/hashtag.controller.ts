@@ -22,7 +22,7 @@ export class HashTagController {
   private readonly logger = new Logger(HashTagController.name);
 
   @Post('Create')
-  async create(@Body() data: hashTagDto) {
+  async Create(@Body() data: string) {
     try {
       const result = await this.hashTagService.createHastag(data);
       return responseSuccess(result);
@@ -36,7 +36,7 @@ export class HashTagController {
 
   @ApiOperation({ summary: 'Update a Hashtag' })
   @Put(':id')
-  async updateById(@Param('id') id: string, @Body() data: hashTagDto) {
+  async UpdateById(@Param('id') id: string, @Body() data: hashTagDto) {
     try {
       const result = await this.hashTagService.updateById(id, data);
       return responseSuccess(result);
@@ -49,7 +49,7 @@ export class HashTagController {
 
   @ApiOperation({ summary: 'Delete a Hashtag' })
   @Delete(':id')
-  async deleteById(@Param('id') id: string) {
+  async DeleteById(@Param('id') id: string) {
     try {
       const result = await this.hashTagService.deleteById(id);
       return responseSuccess(result);
