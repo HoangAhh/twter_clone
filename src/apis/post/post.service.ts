@@ -10,6 +10,8 @@ import { has } from 'lodash';
 import { CmsAuth } from 'src/core/auth/decorators/auth/cms-auth.decorators';
 import { PostFilterDto } from './dtos/post.filter.dto';
 import { PaginationOptions } from 'src/core/decorators/pagination/pagination.model';
+import { HashTag } from '../hastags/hashtag.schema';
+import { HasTagModule } from '../hastags/hashtag.module';
 // import { PostController } from './post.controller';
 
 @Injectable()
@@ -17,7 +19,9 @@ export class PostService {
   constructor(
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
-    private readonly hashtagService: HashTagService, // private readonly postController : Model<PostController>
+    @InjectModel(HashTag.name)
+    private readonly hashtagService: HashTagService,
+    private readonly hashtagModel: HasTagModule, // private readonly postController : Model<PostController>
   ) {}
 
   async getAll(pagination: PaginationOptions, filter: PostFilterDto) {
@@ -28,6 +32,7 @@ export class PostService {
 
     if (filter.q) {
       query.topic = { $regex: filter.q, $options: 'i' };
+      // query._id = { $regex: filter.q, $options: 'i' };
     }
 
     const countDocument = this.postModel.countDocuments(query);
@@ -48,25 +53,32 @@ export class PostService {
     return posts;
   }
 
-  async createPost(data: postDto) {
-    const hashTag = await this.hashtagService.createHastag(data.hashtag);
+  // async createPost(data: postDto) {
+  //   const hashTag = await this.hashtagService.createHastag(data.hashtag);
 
-    const newPost = new this.postModel(data);
+  //   const newPost = new this.postModel(data);
 
-    const posts = newPost.save();
+  //   const posts = newPost.save();
 
-    return posts;
+  //   return posts;
 
-    // lấy riêng phần hashtag ra khỏi posts
+  //   // lấy riêng phần hashtag ra khỏi posts
 
-    // const posts = newPost.save();
+  //   // const posts = newPost.save();
 
-    // return posts;
-  }
+  //   // return posts;
+  // }
 
   // async findByHashtag(hashtag: string): Promise<Post[]> {
   //   return this.postModel.find({ hashtag: { $in: [hashtag] } }).exec();
   // }
+
+  async createPost(data: postDto): Promise<Post> {
+    const post = new this.postModel(data);
+    await post.save();
+    await this.hashtagService.createHashtags(post);
+    return post.toObject({ getters: true });
+  }
 
   async updateById(id: string, data: postDto) {
     const post = await this.postModel.findOne({ _id: id }).lean();

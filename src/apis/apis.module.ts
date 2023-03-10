@@ -4,7 +4,7 @@ import { AuthModule } from 'src/apis/auth/auth.module';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comments/comment.module';
 import { UpLoadModule } from './upLoad/upLoad.module';
-import { SearchModule } from './search/search.module';
+// import { SearchModule } from './search/search.module';
 import { HasTagModule } from './hastags/hashtag.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { HasTagModule } from './hastags/hashtag.module';
     PostModule,
     CommentModule,
     UpLoadModule,
-    SearchModule,
+
     HasTagModule,
   ],
   controllers: [],

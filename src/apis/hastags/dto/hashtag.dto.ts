@@ -6,4 +6,9 @@ export class hashTagDto {
   @IsOptional()
   @IsString()
   hashtag: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  count: number;
 }

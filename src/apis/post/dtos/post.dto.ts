@@ -20,7 +20,7 @@ export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  hashtag: string;
+  hashtag: string[];
 
   @ApiProperty()
   @IsOptional()

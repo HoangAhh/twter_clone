@@ -17,6 +17,8 @@ import {
   responseError,
   responseSuccess,
 } from '../../core/base/base.controller';
+import { Pagination } from 'src/core/decorators/pagination/pagination.decorator';
+import { PaginationOptions } from 'src/core/decorators/pagination/pagination.model';
 
 @ApiTags('users')
 @Controller('users')
@@ -27,9 +29,12 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all user' })
   @Get()
-  async getAll(@Query() filter: UserFilterDto) {
+  async getAll(
+    @Query() filter: UserFilterDto,
+    @Pagination() pagination: PaginationOptions,
+  ) {
     try {
-      const result = await this.userService.getAll(filter);
+      const result = await this.userService.getAll(filter, pagination);
       return responseSuccess(result);
     } catch (error) {
       console.log(error.message);

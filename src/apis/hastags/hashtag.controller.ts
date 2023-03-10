@@ -24,7 +24,7 @@ export class HashTagController {
   @Post('Create')
   async Create(@Body() data: string) {
     try {
-      const result = await this.hashTagService.createHastag(data);
+      const result = await this.hashTagService.createHashtags(data);
       return responseSuccess(result);
       //
     } catch (error) {
@@ -32,6 +32,9 @@ export class HashTagController {
       this.logger.error(error.stack);
       return responseError(error.message || error);
     }
+  }
+  async getHashtags(): Promise<Hashtag[]> {
+    return this.hashTagService.getHashtags();
   }
 
   @ApiOperation({ summary: 'Update a Hashtag' })

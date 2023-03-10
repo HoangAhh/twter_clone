@@ -26,6 +26,8 @@ import {
 } from '../../core/base/base.controller';
 import { postDto } from './dtos/post.dto';
 import { PostFilterDto } from './dtos/post.filter.dto';
+import { PostModule } from './post.module';
+// import { Post } from './post.schema';
 import { PostService } from './post.service';
 
 @ApiTags('post')
@@ -62,6 +64,11 @@ export class PostController {
       this.logger.error(error.stack);
       return responseError(error.message || error);
     }
+  }
+
+  @Post()
+  async createPost(@Body() data: postDto): Promise<PostModule> {
+    return this.postService.createPost(data);
   }
 
   @ApiOperation({ summary: 'Get a posts by id' })

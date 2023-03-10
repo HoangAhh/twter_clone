@@ -5,10 +5,8 @@ import { plainToInstance } from 'class-transformer';
 import { User, UserDocument } from 'src/apis/user/user.schema';
 import { UserDto } from 'src/apis/user/dtos/user.dto';
 import { UserFilterDto } from 'src/apis/user/dtos/user-filter.dto';
-import { removeKeyUndefined } from '../../core/utils/utils';
-import { sha512 } from 'src/core/utils/hash-password';
-import { HttpException } from '@nestjs/common/exceptions';
-import { HttpStatus } from '@nestjs/common/enums';
+import { removeKeyUndefined, totalPagination } from '../../core/utils/utils';
+import { PaginationOptions } from 'src/core/decorators/pagination/pagination.model';
 
 @Injectable()
 export class UserService {
@@ -17,7 +15,25 @@ export class UserService {
     private readonly userModel: Model<UserDocument>, // private userService: UserService ;
   ) {}
 
-  async getAll(filter: UserFilterDto) {}
+  async getAll(filter: UserFilterDto, pagination: PaginationOptions) {
+    const { limit, page, skip } = pagination;
+    const query: any = {};
+
+    if (filter.email) {
+      query.email = { $regex: filter.email, $options: 'i' };
+    }
+
+    const countDocument = this.userModel.countDocuments(query);
+    const getUser = this.userModel.find(query).skip(skip).limit(limit);
+
+    const [amount, user] = await Promise.all([countDocument, getUser]);
+
+    return {
+      totalPage: totalPagination(amount, limit),
+      currentPage: page,
+      data: user,
+    };
+  }
 
   async getById(id: string) {
     const user = await this.userModel.findOne({ _id: id }).lean();

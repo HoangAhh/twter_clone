@@ -19,7 +19,7 @@ export class Post {
   status: string;
 
   @Prop({ type: String, required: true })
-  hashtag: string;
+  hashtag: string[];
 
   @Prop({ type: String })
   comment: string;
