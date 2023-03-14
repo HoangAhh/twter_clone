@@ -4,9 +4,9 @@ import { plainToInstance } from 'class-transformer';
 // import { Hash } from 'crypto';
 import { Model } from 'mongoose';
 import { removeKeyUndefined } from 'src/core/utils/utils';
-import { postDto } from '../post/dtos/post.dto';
+// import { postDto } from '../post/dtos/post.dto';
 import { Post, PostDocument } from '../post/post.schema';
-import { PostService } from '../post/post.service';
+// import { PostService } from '../post/post.service';
 import { hashTagDto } from './dto/hashtag.dto';
 import { HashTag, HashTagDocument } from './hashtag.schema';
 
@@ -44,24 +44,32 @@ export class HashTagService {
     ]);
     return result.map((r) => ({ name: r._id, count: r.count }));
   }
+  async extractHashtags(postId: string) {
+    const post = await this.postModel.findById(postId).exec();
+    if (!post) {
+      throw new Error('Post not found');
+    }
 
-  async createHashtags(post: PostDocument): Promise<void> {
-    const hashtags = post.comment.match(/#\w+/g);
-    if (hashtags) {
-      for (const hashtag of hashtags) {
-        const foundHashtag = await this.HashTagModel.findOne({
-          hashtag: hashtag,
+    const regex = /#[\w-]+/g;
+    const hashtags = post.status.match(regex);
+    if (!hashtags) {
+      return;
+    }
+
+    for (const hashtag of hashtags) {
+      const existingHashtag = await this.HashTagModel.findOne({
+        hashtag: hashtag.toLowerCase(),
+      });
+      if (existingHashtag) {
+        // existingHashtag.post.push(post);
+        await existingHashtag.save();
+      } else {
+        const newHashtag = new this.HashTagModel({
+          hashtag: hashtag.toLowerCase(),
+          posts: [post],
         });
-        if (foundHashtag) {
-          foundHashtag.hashtag += 1;
-          await foundHashtag.save();
-        } else {
-          const newHashtag = new this.HashTagModel({ name: hashtag, count: 1 });
-          await newHashtag.save();
-        }
+        await newHashtag.save();
       }
-      post.hashtag = hashtags;
-      await post.save();
     }
   }
 

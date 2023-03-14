@@ -4,11 +4,11 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class hashTagDto {
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  hashtag: string;
+  @IsNumber()
+  count: number;
 
   @ApiProperty()
   @IsOptional()
-  @IsNumber()
-  count: number;
+  @IsString()
+  hashtag: string;
 }

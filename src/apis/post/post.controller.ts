@@ -24,6 +24,7 @@ import {
   responseError,
   responseSuccess,
 } from '../../core/base/base.controller';
+import { HashTagService } from '../hastags/hashtag.service';
 import { postDto } from './dtos/post.dto';
 import { PostFilterDto } from './dtos/post.filter.dto';
 import { PostModule } from './post.module';
@@ -33,7 +34,10 @@ import { PostService } from './post.service';
 @ApiTags('post')
 @Controller('posts')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly hashtagService: HashTagService,
+  ) {}
   private readonly logger = new Logger(PostController.name);
 
   @ApiOperation({ summary: 'Get all user' })
@@ -69,6 +73,10 @@ export class PostController {
   @Post()
   async createPost(@Body() data: postDto): Promise<PostModule> {
     return this.postService.createPost(data);
+  }
+  @Post(':id/hashtags')
+  async extractHashtags(@Param('id') id: string) {
+    await this.hashtagService.extractHashtags(id);
   }
 
   @ApiOperation({ summary: 'Get a posts by id' })

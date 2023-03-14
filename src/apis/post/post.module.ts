@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { HashTagController } from '../hastags/hashtag.controller';
 import { HashTag, HashTagSchema } from '../hastags/hashtag.schema';
 import { HashTagService } from '../hastags/hashtag.service';
 import { PostController } from './post.controller';
@@ -19,8 +20,8 @@ import { PostService } from './post.service';
       },
     ]),
   ],
-  controllers: [PostController],
-  providers: [PostService, HashTagService],
-  // providers: [PostService],
+  controllers: [PostController, HashTagController],
+  // providers: [HashTagService],
+  providers: [PostService],
 })
 export class PostModule {}

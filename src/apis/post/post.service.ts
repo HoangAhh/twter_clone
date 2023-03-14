@@ -6,8 +6,8 @@ import { removeKeyUndefined, totalPagination } from '../../core/utils/utils';
 import { PostDocument, Post } from './post.schema';
 import { postDto } from './dtos/post.dto';
 import { HashTagService } from '../hastags/hashtag.service';
-import { has } from 'lodash';
-import { CmsAuth } from 'src/core/auth/decorators/auth/cms-auth.decorators';
+// import { has } from 'lodash';
+// import { CmsAuth } from 'src/core/auth/decorators/auth/cms-auth.decorators';
 import { PostFilterDto } from './dtos/post.filter.dto';
 import { PaginationOptions } from 'src/core/decorators/pagination/pagination.model';
 import { HashTag } from '../hastags/hashtag.schema';
@@ -20,8 +20,7 @@ export class PostService {
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
     @InjectModel(HashTag.name)
-    private readonly hashtagService: HashTagService,
-    private readonly hashtagModel: HasTagModule, // private readonly postController : Model<PostController>
+    private readonly hashtagService: HashTagService, // private readonly hashtagModel: HasTagModule,
   ) {}
 
   async getAll(pagination: PaginationOptions, filter: PostFilterDto) {
@@ -67,18 +66,41 @@ export class PostService {
   //   // const posts = newPost.save();
 
   //   // return posts;
+
+  async createPost(data: postDto): Promise<Post> {
+    const post = new this.postModel(data);
+    await post.save();
+    // await this.hashtagService.create(data);
+    return post.toObject({ getters: true });
+  }
   // }
 
   // async findByHashtag(hashtag: string): Promise<Post[]> {
   //   return this.postModel.find({ hashtag: { $in: [hashtag] } }).exec();
   // }
 
-  async createPost(data: postDto): Promise<Post> {
-    const post = new this.postModel(data);
-    await post.save();
-    await this.hashtagService.createHashtags(post);
-    return post.toObject({ getters: true });
-  }
+  // async createHashtag(data: Post): Promise<Post> {
+  //   // Phân tích nội dung bài post để lấy các hashtag
+  //   const hashtags = data..match(/#\w+/g);
+  //   if (hashtags) {
+  //     // Duyệt qua danh sách hashtag và cập nhật hoặc thêm mới vào cơ sở dữ liệu
+  //     for (const hashtag of hashtags) {
+  //       const name = hashtag.slice(1); // bỏ dấu # ở đầu hashtag
+  //       let hashtagDoc = await this.hashtagModel.findOne({ name });
+  //       if (!hashtagDoc) {
+  //         hashtagDoc = new this.hashtagModel({ name, count: 1 });
+  //       } else {
+  //         hashtagDoc.count++;
+  //       }
+  //       await hashtagDoc.save();
+  //     }
+  //     // Lưu danh sách các hashtag vào bài post
+  //     data.hashtags = hashtags;
+  //   }
+  //   // Lưu bài post vào cơ sở dữ liệu
+  //   const createdPost = new this.postModel(data);
+  //   return createdPost.save();
+  // }
 
   async updateById(id: string, data: postDto) {
     const post = await this.postModel.findOne({ _id: id }).lean();

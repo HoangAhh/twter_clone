@@ -21,7 +21,7 @@ import { PostService } from '../post/post.service';
       },
     ]),
   ],
-  controllers: [HashTagController, PostController],
+  controllers: [PostController],
   providers: [HashTagService, PostService],
 })
 export class HasTagModule {}

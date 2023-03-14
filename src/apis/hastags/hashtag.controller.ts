@@ -11,8 +11,10 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { create } from 'lodash';
 // import { async } from 'rxjs';
 import { responseError, responseSuccess } from 'src/core/base/base.controller';
+// import { Post } from '../post/post.schema';
 // import { postDto } from '../post/dtos/post.dto';
 import { hashTagDto } from './dto/hashtag.dto';
+import { HasTagModule } from './hashtag.module';
 import { HashTagService } from './hashtag.service';
 
 @ApiTags('Hashtag')
@@ -22,19 +24,9 @@ export class HashTagController {
   private readonly logger = new Logger(HashTagController.name);
 
   @Post('Create')
-  async Create(@Body() data: string) {
-    try {
-      const result = await this.hashTagService.createHashtags(data);
-      return responseSuccess(result);
-      //
-    } catch (error) {
-      console.log(error.message);
-      this.logger.error(error.stack);
-      return responseError(error.message || error);
-    }
-  }
-  async getHashtags(): Promise<Hashtag[]> {
-    return this.hashTagService.getHashtags();
+  @Post(':id/hashtags')
+  async extractHashtags(@Param('id') id: string) {
+    await this.hashTagService.extractHashtags(id);
   }
 
   @ApiOperation({ summary: 'Update a Hashtag' })

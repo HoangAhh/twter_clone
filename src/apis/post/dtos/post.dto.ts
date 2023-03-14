@@ -20,11 +20,6 @@ export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  hashtag: string[];
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
   comment: string;
 
   @ApiProperty()
