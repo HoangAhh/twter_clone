@@ -20,8 +20,8 @@ import { PostService } from './post.service';
       },
     ]),
   ],
-  controllers: [PostController, HashTagController],
+  controllers: [PostController],
   // providers: [HashTagService],
-  providers: [PostService],
+  providers: [PostService, HashTagService],
 })
 export class PostModule {}

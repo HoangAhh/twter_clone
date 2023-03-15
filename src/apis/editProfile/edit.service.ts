@@ -7,7 +7,6 @@ import { EditProfile, EditProfileDocument } from './edit.schema';
 export class EditProfileService {
   constructor(
     @InjectModel(EditProfile.name)
-    private readonly editProfileModel: Model<EditProfileDocument>,
-  ) // private readonly PostService: PostService,
-  {}
+    private readonly editProfileModel: Model<EditProfileDocument>, // private readonly PostService: PostService,
+  ) {}
 }
