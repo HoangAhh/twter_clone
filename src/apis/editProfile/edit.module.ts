@@ -17,4 +17,4 @@ import { EditProfileService } from './edit.service';
   controllers: [EditProfileController],
   providers: [EditProfileService],
 })
-export class HasTagModule {}
+export class EditProfileModule {}

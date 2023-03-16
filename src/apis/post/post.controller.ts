@@ -40,7 +40,7 @@ export class PostController {
   ) {}
   private readonly logger = new Logger(PostController.name);
 
-  @ApiOperation({ summary: 'Get all user' })
+  @ApiOperation({ summary: 'Get all Posts' })
   @Get()
   async getAll(
     @Pagination() pagination: PaginationOptions,

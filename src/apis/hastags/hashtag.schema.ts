@@ -4,6 +4,7 @@ export type HashTagDocument = HashTag & Document;
 
 @Schema({ timestamps: true, versionKey: false })
 export class HashTag {
+  
   @Prop({ type: String, required: true })
   hashtag: string;
 }

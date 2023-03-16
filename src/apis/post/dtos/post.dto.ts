@@ -15,6 +15,11 @@ export class postDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
+  image: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
   status: string;
 
   @ApiProperty()

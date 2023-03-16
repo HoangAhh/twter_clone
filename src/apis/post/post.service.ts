@@ -52,14 +52,15 @@ export class PostService {
     return posts;
   }
 
-  // async createPost(data: postDto) {
-  //   const hashTag = await this.hashtagService.createHastag(data.hashtag);
+  async createPost(data: postDto) {
+    // const hashTag = await this.hashtagService.createHastag(data.hashtag);
 
-  //   const newPost = new this.postModel(data);
+    const newPost = new this.postModel(data);
 
-  //   const posts = newPost.save();
+    const posts = newPost.save();
 
-  //   return posts;
+    return posts;
+  }
 
   //   // lấy riêng phần hashtag ra khỏi posts
 
@@ -67,12 +68,12 @@ export class PostService {
 
   //   // return posts;
 
-  async createPost(data: postDto): Promise<Post> {
-    const post = new this.postModel(data);
-    await post.save();
-    // await this.hashtagService.create(data);
-    return post.toObject({ getters: true });
-  }
+  // async createPost(data: postDto): Promise<Post> {
+  //   const post = new this.postModel(data);
+  //   await post.save();
+  //   // await this.hashtagService.create(data);
+  //   return post.toObject({ getters: true });
+  // }
   // }
 
   // async findByHashtag(hashtag: string): Promise<Post[]> {

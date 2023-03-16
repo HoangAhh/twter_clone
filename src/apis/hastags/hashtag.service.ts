@@ -61,7 +61,7 @@ export class HashTagService {
         hashtag: hashtag.toLowerCase(),
       });
       if (existingHashtag) {
-        // existingHashtag.post.push(post);
+        // existingHashtag..push(post);
         await existingHashtag.save();
       } else {
         const newHashtag = new this.HashTagModel({

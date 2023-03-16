@@ -12,6 +12,9 @@ export class Post {
   @Prop({ type: String, required: true })
   userName: string;
 
+  @Prop({ type: String })
+  image: string;
+
   @Prop({ type: Number, required: true })
   userId: Number;
 
