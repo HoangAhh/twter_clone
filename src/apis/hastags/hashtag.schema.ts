@@ -2,10 +2,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type HashTagDocument = HashTag & Document;
 
-@Schema({ timestamps: true, versionKey: false })
+@Schema()
 export class HashTag {
-  
-  @Prop({ type: String, required: true })
-  hashtag: string;
+  @Prop({ required: true, unique: true })
+  name: string;
+
+  @Prop({ default: 0 })
+  count: number;
 }
+
 export const HashTagSchema = SchemaFactory.createForClass(HashTag);

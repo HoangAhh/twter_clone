@@ -106,6 +106,7 @@ export class PostController {
       return responseError(error.message || error);
     }
   }
+
   @ApiOperation({ summary: 'Delete a posts' })
   @Delete(':id')
   @CmsAuth()

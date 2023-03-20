@@ -6,13 +6,11 @@ import { removeKeyUndefined, totalPagination } from '../../core/utils/utils';
 import { PostDocument, Post } from './post.schema';
 import { postDto } from './dtos/post.dto';
 import { HashTagService } from '../hastags/hashtag.service';
-// import { has } from 'lodash';
-// import { CmsAuth } from 'src/core/auth/decorators/auth/cms-auth.decorators';
+
 import { PostFilterDto } from './dtos/post.filter.dto';
 import { PaginationOptions } from 'src/core/decorators/pagination/pagination.model';
 import { HashTag } from '../hastags/hashtag.schema';
 import { HasTagModule } from '../hastags/hashtag.module';
-// import { PostController } from './post.controller';
 
 @Injectable()
 export class PostService {
@@ -20,12 +18,10 @@ export class PostService {
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
     @InjectModel(HashTag.name)
-    private readonly hashtagService: HashTagService, // private readonly hashtagModel: HasTagModule,
+    private readonly hashtagModel: HasTagModule,
   ) {}
 
   async getAll(pagination: PaginationOptions, filter: PostFilterDto) {
-    // console.log('aâ');
-
     const { limit, page, skip } = pagination;
     const query: any = {};
 
@@ -51,60 +47,39 @@ export class PostService {
     if (!posts) throw new Error(`Post with id is ${id} does not exist`);
     return posts;
   }
+  async createPost(content: postDto): Promise<Post> {
+    const hashtags = this.extractHashtags(content.status);
+    const post = new this.postModel({ content, hashtags });
 
-  async createPost(data: postDto) {
-    // const hashTag = await this.hashtagService.createHastag(data.hashtag);
+    for (const tag of hashtags) {
+      const existingHashtag = await this.hashtagModel.findById(
+        { name: tag },
+        { $inc: { count: 1 } },
+      );
 
-    const newPost = new this.postModel(data);
+      if (!existingHashtag) {
+        const newHashtag = new this.hashtagModel.findById({
+          name: tag,
+          count: 1,
+        });
+        await newHashtag.save();
+      }
+    }
 
-    const posts = newPost.save();
-
-    return posts;
+    return post.save();
   }
 
-  //   // lấy riêng phần hashtag ra khỏi posts
+  private extractHashtags(status: string): string[] {
+    const regex = /#\w+/g;
+    return status.match(regex) || [];
+  }
 
-  //   // const posts = newPost.save();
-
-  //   // return posts;
-
-  // async createPost(data: postDto): Promise<Post> {
-  //   const post = new this.postModel(data);
-  //   await post.save();
-  //   // await this.hashtagService.create(data);
-  //   return post.toObject({ getters: true });
-  // }
-  // }
-
-  // async findByHashtag(hashtag: string): Promise<Post[]> {
-  //   return this.postModel.find({ hashtag: { $in: [hashtag] } }).exec();
-  // }
-
-  // async createHashtag(data: Post): Promise<Post> {
-  //   // Phân tích nội dung bài post để lấy các hashtag
-  //   const hashtags = data..match(/#\w+/g);
-  //   if (hashtags) {
-  //     // Duyệt qua danh sách hashtag và cập nhật hoặc thêm mới vào cơ sở dữ liệu
-  //     for (const hashtag of hashtags) {
-  //       const name = hashtag.slice(1); // bỏ dấu # ở đầu hashtag
-  //       let hashtagDoc = await this.hashtagModel.findOne({ name });
-  //       if (!hashtagDoc) {
-  //         hashtagDoc = new this.hashtagModel({ name, count: 1 });
-  //       } else {
-  //         hashtagDoc.count++;
-  //       }
-  //       await hashtagDoc.save();
-  //     }
-  //     // Lưu danh sách các hashtag vào bài post
-  //     data.hashtags = hashtags;
-  //   }
-  //   // Lưu bài post vào cơ sở dữ liệu
-  //   const createdPost = new this.postModel(data);
-  //   return createdPost.save();
-  // }
+  async findAll(): Promise<Post[]> {
+    return this.postModel.find().populate('hashtags').exec();
+  }
 
   async updateById(id: string, data: postDto) {
-    const post = await this.postModel.findOne({ _id: id }).lean();
+    const post = await this.postModel.findById({ _id: id }).lean();
     if (!post) throw new Error(`Post with id is ${id} does not exist`);
 
     const postInstance = plainToInstance(Post, data);

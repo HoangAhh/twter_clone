@@ -42,7 +42,7 @@ export class UserService {
   }
 
   async updateById(id: string, data: UserDto) {
-    const user = await this.userModel.findOne({ _id: id }).lean();
+    const user = await this.userModel.findById({ _id: id }).lean();
     if (!user) throw new Error(`User with id is ${id} does not exist`);
 
     const userInstance = plainToInstance(User, data);

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // import { time } from 'console';
 import { Document } from 'mongoose';
+import { HashTag } from '../hastags/hashtag.schema';
 // import { type } from 'os';
 
 export type PostDocument = Post & Document;
@@ -18,7 +19,10 @@ export class Post {
   @Prop({ type: Number, required: true })
   userId: Number;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: [{ type: String, ref: 'Hashtag' }] })
+  hashtags: HashTag[];
+
+  @Prop({ enum: ['draft', 'published'], default: 'draft' })
   status: string;
 
   @Prop({ type: String })

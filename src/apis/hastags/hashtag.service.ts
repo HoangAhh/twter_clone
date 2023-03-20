@@ -19,23 +19,6 @@ export class HashTagService {
     private readonly postModel: Model<PostDocument>, // private readonly PostService: PostService,
   ) {}
 
-  // async createHastag(data: string) {
-  //   // this.PostService.createPost(hashtag);
-  //   const hashTags = new this.HashTagModel(data);
-
-  //   const chuoi = ['#hoanganh', '#abc', '#xyz'];
-
-  //   const hashTag = chuoi.map((tag) => ({
-  //     hashtag: tag.slice(1),
-  //   }));
-  //   // console.log(hashTag);
-
-  //   // const a = hashTags;
-  //   // hashTags.collection.insertOne(chuoi);
-  //   // const newHashTag = await this.HashTagModel.findOne(hashTag).exec();
-  //   // await newHashTag.save();
-  //   return hashTag;
-  // }
   async getHashtags() {
     const result = await this.postModel.aggregate([
       { $unwind: '$hashtags' },

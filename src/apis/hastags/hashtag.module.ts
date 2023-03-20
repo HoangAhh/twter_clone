@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { HashTagController } from './hashtag.controller';
 import { HashTagService } from './hashtag.service';
 import { HashTag, HashTagSchema } from './hashtag.schema';
