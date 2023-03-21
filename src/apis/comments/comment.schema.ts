@@ -1,12 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // import { time } from 'console';
 import { Document } from 'mongoose';
-import { HashTag } from '../hastags/hashtag.schema';
 // import { type } from 'os';
 
-export type PostDocument = Post & Document;
+export type CommentDocument = Comment & Document;
 @Schema({ timestamps: true, versionKey: false })
-export class Post {
+export class Comment {
   @Prop({ type: String, required: true })
   topic: string;
 
@@ -14,15 +13,6 @@ export class Post {
   userName: string;
 
   @Prop({ type: String })
-  image: string;
-
-  @Prop({ type: Number, required: true })
-  userId: Number;
-
-  @Prop({ type: [{ type: String, ref: 'Hashtag' }] })
-  hashtags: HashTag[];
-
-  @Prop({ enum: ['draft', 'published'], default: 'draft' })
   status: string;
 
   @Prop({ type: String })
@@ -41,4 +31,4 @@ export class Post {
   view: number;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const CommentSchema = SchemaFactory.createForClass(Comment);

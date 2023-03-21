@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class UserFilterDto {
+export class PostFilterDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  email: string;
+  q: string;
 }
