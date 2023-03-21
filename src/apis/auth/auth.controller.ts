@@ -34,7 +34,6 @@ export class AuthController {
     try {
       const result = await this.authService.register(data);
       return responseSuccess(result);
-      //
     } catch (error) {
       console.log(error.message);
       this.logger.error(error.stack);
